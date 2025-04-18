@@ -1,0 +1,56 @@
+{%extends 'base.html'%}
+{%load static%}
+Insertar rol
+{%block title%}
+{%endblock%}
+
+
+{%block header%}
+<link rel="stylesheet" href="{% static 'css/base.css'%}">
+<h1>Gestion Novedades</h1>
+        <ul>
+            <a href="{% url 'base'%}">INICIO</a>
+            <a href="{% url 'insertar_centro_formacion'%}">INSERTAR</a>
+            <a href="{% url 'listar_centro_formacion' %}">LISTAR</a>
+        </ul>
+{%endblock%}
+
+
+{%block content%}
+<h1>Registro Centro de Formacion</h1>
+
+<form action="" method="POST" id="formulario_actualizar">
+    {%csrf_token %}
+    <div class="formulario_actualizar">
+    <label>codigo</label>
+    <br>
+    <input type="number" name="codigo">
+    <br>
+    <label>Nombre</label>
+    <br>
+    <input type="text" name="nombre">
+    <br>
+    <label>direccion</label>
+    <br>
+    <input type="text" name="direccion">
+    <br>
+    <label>telefono</label>
+    <br>   
+    <input type="text" name="telefono">
+        
+    <br>
+        
+    <label> regional </label>
+    <br>
+    <select name="regional_id">
+        {% for p in regional %}
+        <option value="{{p.id}}">{{p.nombre}}</option>
+        {% endfor %}   
+        </select>
+        <br>
+        <button type="submit" > Guardar  </button>    
+</form>
+</div>
+{%endblock%}
+
+

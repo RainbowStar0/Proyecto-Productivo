@@ -1,0 +1,53 @@
+{%extends 'base.html'%}
+{%load static%}
+Insertar rol
+{%block title%}
+{%endblock%}
+
+
+{%block header%}
+<link rel="stylesheet" href="{% static 'css/base.css'%}">
+<h1>Gestion Novedades</h1>
+        <ul>
+            <a href="{% url 'base'%}">INICIO</a>
+            <a href="{% url 'insertar_ambiente'%}">INSERTAR</a>
+            <a href="{% url 'listar_ambiente' %}">LISTAR</a>
+        </ul>
+{%endblock%}
+
+
+{%block content%}
+<h1>Registro ambiente</h1>
+<table>
+    <thead>
+        <tr>
+        <th>codigo</th>
+        <th>estado</th>
+        <th>ubicacion</th>
+        <th>tipo_ambiente</th>
+        <th>sede</th>
+        <th>Actualizar</th>
+        <th>Eliminar</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for p in ambiente %}
+        <tr>
+            <td><p>{{p.codigo}}</p></td>
+            <td><p>{{p.estado}}</p></td>
+            <td><p>{{p.ubicacion}}</p></td>
+            <td><p>{{p.tipo_ambiente.nombre}}</p></td>
+            <td><p>{{p.sede.nombre}}</p></td>
+            <td> <a href="{% url 'actualizar_ambiente' p.id%}">actualizar</a></td>
+            <td> <a href="{% url 'eliminar_ambiente' p.id%}" onclick="return (confirm('Desea eliminar el elemento?'))"> eliminar</a> </td>
+            
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{%endblock%}
+
+
+

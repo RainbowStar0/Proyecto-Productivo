@@ -1,0 +1,43 @@
+{%extends 'base.html'%}
+{%load static%}
+Insertar centro_de_formacion
+{%block title%}
+{%endblock%}
+
+
+{%block header%}
+<link rel="stylesheet" href="{% static 'css/base.css'%}">
+<h1>Gestion Novedades</h1>
+        <ul>
+            <a href="{% url 'base'%}">INICIO</a>
+            <a href="{% url 'insertar_sede'%}">INSERTAR</a>
+            <a href="{% url 'listar_sede' %}">LISTAR</a>
+        </ul>
+{%endblock%}
+
+{%block content%}
+<div class="formulario_actualizar">
+    <h1>Actualizar sede</h1>
+    
+    <form action="" method="POST" id="formulario_actualizar">
+        {%csrf_token %}
+    
+    <label>codigo</label>
+    <input type="number" name="codigo" value="{{sede.codigo}}" required><br>
+    <label>nombre</label>
+    <input type="text" name="nombre" value="{{sede.nombre}}" required><br>
+    <label>direccion</label>
+    <input type="text" name="direccion" value="{{sede.direccion}}" required><br>
+    
+    <label> centro_de_formacion </label>
+    <select name="centro_de_formacion_id">
+        {% for p in centro_de_formacion %}
+        <option value="{{p.id}}">{{p.nombre}}</option>
+        {% endfor %}   
+        </select>
+        <br>
+        <button type="submit" > Guardar  </button>    
+    </form>
+    </div>
+{%endblock%}
+

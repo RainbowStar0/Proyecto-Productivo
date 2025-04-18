@@ -1,0 +1,55 @@
+{%extends 'base.html'%}
+{%load static%}
+Insertar rol
+{%block title%}
+{%endblock%}
+
+
+{%block header%}
+<link rel="stylesheet" href="{% static 'css/base.css'%}">
+<h1>Gestion Novedades</h1>
+        <ul>
+            <a href="{% url 'base'%}">INICIO</a>
+            <a href="{% url 'insertar_centro_formacion'%}">INSERTAR</a>
+            <a href="{% url 'listar_centro_formacion' %}">LISTAR</a>
+        </ul>
+{%endblock%}
+
+
+{%block content%}
+<h1>Registro centro_formacion</h1>
+<table>
+    <thead>
+        <tr>
+        <th>codigo</th>
+        <th>nombre</th>
+        <th>direccion</th>
+        <th>telefono</th>
+        <th>regional</th>
+        <th>Actualizar</th>
+        <th>Eliminar</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for p in centro_formacion %}
+        <tr>
+            <td><p>{{p.codigo}}</p></td>
+            <td><p>{{p.nombre}}</p></td>
+            <td><p>{{p.direccion}}</p></td>
+            <td><p>{{p.telefono}}</p></td>
+            <td><p>{{p.regional.nombre}}</p></td>
+            <!-- <td> {% for p in regional %}
+                <option value="{{p.id}}">{{p.nombre}}</option>
+                {% endfor %}   </td> -->
+            <td> <a href="{% url 'actualizar_centro_formacion' p.id%}">actualizar</a></td>
+            <td> <a href="{% url 'eliminar_centro_formacion' p.id%}" onclick="return (confirm('Desea eliminar el elemento?'))"> eliminar</a> </td>
+            
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{%endblock%}
+
+

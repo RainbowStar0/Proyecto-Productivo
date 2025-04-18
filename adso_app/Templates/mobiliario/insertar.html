@@ -1,0 +1,110 @@
+{%extends 'base.html'%}
+{%load static%}
+Insertar rol
+{%block title%}
+{%endblock%}
+
+
+{%block header%}
+<link rel="stylesheet" href="{% static 'css/base.css'%}">
+<h1>Gestion Novedades</h1>
+        <ul>
+            <a href="{% url 'base'%}">INICIO</a>
+            <a href="{% url 'insertar_mobiliario'%}">INSERTAR</a>
+            <a href="{% url 'listar_mobiliario' %}">LISTAR</a>
+        </ul>
+{%endblock%}
+
+
+{%block content%}
+<h1>Registro mobiliario</h1>
+
+<form action="" method="POST" id="formulario_actualizar">
+    {%csrf_token %}
+    <div class="formulario_actualizar">
+
+<label>placa</label>
+<br>
+<input type="number" name="placa">
+<br>
+<label>modelo</label>
+<br>
+<input type="text" name="modelo">
+<br>
+<label>descripcion</label>
+<br>
+<textarea name="descripcion"></textarea>
+<br>
+<label>atributos</label>
+<br>
+<input type="text" name="atributos">
+<br>
+<label>observaciones</label>
+<br>
+<input type="text" name="observaciones">
+<br>
+<label>fecha_adquisicion</label>
+<br>
+<input type="date" name="fecha_adquisicion">
+<br>
+<label>valor_ingreso</label>
+<br>
+<input type="number" name="valor_ingreso">
+<br>
+
+<label> tipo_mobiliario </label>
+<br>
+<select name="tipo_id">
+    {% for p in tipo_mobiliario %}
+    <option value="{{p.id}}">{{p.descripcion}}</option>
+    {% endfor %}   
+    </select>
+    <br>
+
+
+    <label> ambiente </label>
+    <br>
+    <select name="ambiente_id">
+        {% for p in ambiente %}
+        <option value="{{p.id}}">{{p.codigo}}</option>
+        {% endfor %}   
+        </select>
+    <br>
+    <button type="submit" > Guardar  </button>    
+</form>
+</div>
+{%endblock%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

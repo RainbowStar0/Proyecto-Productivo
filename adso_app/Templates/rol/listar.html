@@ -1,0 +1,48 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{%block title%}
+programa
+{%endblock%}
+
+
+{%block header%}
+<link rel="stylesheet" href="{% static 'css/base.css'%}">
+<h1>Gestion Novedades</h1>
+        <ul>
+            <a href="{% url 'base'%}">INICIO</a>
+            <a href="{% url 'insertar_rol'%}">INSERTAR</a>
+            <a href="{% url 'listar_rol' %}">LISTAR</a>
+        </ul>
+{%endblock%}
+
+
+{%block content%}
+<h1>listar roles</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>codigo</th>
+                <th>nombre</th>
+                <th>descripcion</th>
+                <th>actualizar</th>
+                <th>eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in rol %}
+            <tr>
+                <td>{{p.codigo}}</td>
+                <td>{{p.nombre}}</td>
+                <td>{{p.descripcion}}</td>
+                <td> <a href="{% url 'actualizar_rol' p.id %}">Actualizar</a></td>
+                <td><a href="{% url 'eliminar_rol' p.id %}">Eliminar</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <p>Total de usuarios registrados: {{ total_roles }}</p>
+    </table>
+</div>
+
+</div>
+{%endblock%}

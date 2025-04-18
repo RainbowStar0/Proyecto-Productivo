@@ -1,0 +1,31 @@
+{%extends 'base.html'%}
+{%load static%}
+Insertar tipo_mobiliario
+{%block title%}
+{%endblock%}
+
+
+{%block header%}
+<link rel="stylesheet" href="{% static 'css/base.css'%}">
+<h1>Gestion Novedades</h1>
+        <ul>
+            <a href="{% url 'base'%}">INICIO</a>
+            <a href="{% url 'insertar_tipo_mobiliario'%}">INSERTAR</a>
+            <a href="{% url 'listar_tipo_mobiliario' %}">LISTAR</a>
+        </ul>
+{%endblock%}
+
+
+{%block content%}
+<h1>Registro tipo_mobiliario</h1>
+
+<form action="" method="post" id="formulario_actualizar">
+    {% csrf_token %}
+    <label for="">codigo</label>
+    <input type="text" name="codigo" id="">
+    <label for="">descripcion</label>
+    <input type="text" name="descripcion" id="">
+    
+<input type="submit" value="Guardar", name="guardar">
+</form>
+{%endblock%}

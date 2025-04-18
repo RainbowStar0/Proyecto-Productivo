@@ -1,0 +1,73 @@
+    {% load static %}
+<!DOCTYPE html>
+<html lang="en">    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/base.css'%}">
+    <link rel="stylesheet" href="{% static 'css/rol/mediasquerys.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <title>{%block title%}base{%endblock%}</title>
+</head>
+<body>
+    <header>
+        {%block header%}
+        <h1>GESTION SENA</h1>
+        <div class="contenedor">
+        <div class="menu">
+            <button>USUARIOS</button>
+            <ul class="menu-content">
+                <li><a href="{% url 'insertar_rol' %}">ROL</a></li>
+                <li><a href="{% url 'insertar_usuario' %}">USUARIO</a></li>
+            </ul>
+        </div>
+        <div class="menu">
+            <button>SEDES</button>
+            <ul class="menu-content">
+                <li><a href="{% url 'insertar_regional' %}">REGIONAL</a></li>
+                <li><a href="{% url 'insertar_centro_formacion' %}">CENTROS DE FORMACIÓN</a></li>
+                <li><a href="{% url 'insertar_sede' %}">SEDES</a></li>
+        </div>
+        <div class="menu">
+            <button>AMBIENTES</button>
+            <ul class="menu-content">
+                <li><a href="{% url 'insertar_tipo_ambiente' %}">TIPOS AMBIENTE</a></li>
+                <li><a href="{% url 'insertar_ambiente' %}">AMBIENTE</a></li>
+                <li><a href="{% url 'insertar_tipo_mobiliario' %}">TIPO MOBILIARIO</a></li>
+                <li><a href="{% url 'insertar_mobiliario' %}">MOBILIARIO</a></li>
+            </ul>
+        </div>
+        <div class="menu">
+            <button><i class="fa-solid fa-user"></i></button>
+            <ul class="menu-content">
+                <nav>
+                    {% if user.is_authenticated %}
+                        {% if user.rol.codigo == 'INS' %}
+                            <p>Rol Instructor</p>
+                        {% elif user.rol.codigo == 'APR' %}
+                            <p>Aprendiz</p>
+                        {% elif user.rol.codigo == 'COR' %}
+                            <p>Coordinador</p>
+                        {% endif %}
+                    {% else %}
+                        <p>Usuario invitado</p>
+                    {% endif %}
+                </nav>
+                <li><a href="{% url 'login' %}">Iniciar Sesion</a></li>
+            </ul>
+        </div>
+    </div>
+        {%endblock%}
+    </header>
+    <main>
+        {%block content%}
+        <nav>
+            {% if user.is_authenticated %}
+                
+                    <p>Bienvenido señor, {{ user.first_name }}</p>
+                {% endif %}
+        </nav>
+        {%endblock%}
+    </main>
+</body>
+</html>

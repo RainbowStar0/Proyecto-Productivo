@@ -1,0 +1,35 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{%block title%}
+regional
+{%endblock%}
+
+
+{%block header%}
+<link rel="stylesheet" href="{% static 'css/base.css'%}">
+<h1>Gestion Novedades</h1>
+        <ul>
+            <a href="{% url 'base'%}">INICIO</a>
+            <a href="{% url 'insertar_regional'%}">regional</a>
+            <a href="{% url 'listar_regional' %}">listar</a>
+        </ul>
+{%endblock%}
+
+
+{%block content%}
+<div class="formulario_actualizar">
+<h1>Actualizar </h1>
+
+<form action="" method="POST" id="formulario_actualizar">
+    {% csrf_token %}
+                <label for="codigo">codigo</label>
+                <input type="text" name="codigo" id="" value="{{regional.codigo}}">
+            
+                <label for="nombre">nombre</label>
+                <input type="text" name="nombre" id="" value="{{regional.nombre}}">
+            <br>
+                <td colspan="1"><button type="submit">Actualizar </button>
+</form>
+</div>
+{%endblock%}

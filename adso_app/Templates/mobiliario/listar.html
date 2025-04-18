@@ -1,0 +1,63 @@
+
+
+{%extends 'base.html'%}
+{%load static%}
+Insertar rol
+{%block title%}
+{%endblock%}
+
+
+{%block header%}
+<link rel="stylesheet" href="{% static 'css/base.css'%}">
+<h1>Gestion Novedades</h1>
+        <ul>
+            <a href="{% url 'base'%}">INICIO</a>
+            <a href="{% url 'insertar_mobiliario'%}">INSERTAR</a>
+            <a href="{% url 'listar_mobiliario' %}">LISTAR</a>
+        </ul>
+{%endblock%}
+
+
+{%block content%}
+<h1>Registro mobiliario</h1>
+<table>
+    <thead>
+        <tr>
+        <th>placa</th>
+        <th>modelo</th>
+        <th>descripcion</th>
+        <th>atributos</th>
+        <th>observaciones</th>
+        <th>fecha_adquisicion</th>
+        <th>valor_ingreso</th>
+        <th>tipo_id</th>
+        <th>ambiente</th>
+        <th>Actualizar</th>
+        <th>Eliminar</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for p in mobiliario %}
+        <tr>
+            <td><p>{{p.placa}}</p></td>
+            <td><p>{{p.modelo}}</p></td>
+            <td><p>{{p.descripcion}}</p></td>
+            <td><p>{{p.atributos}}</p></td>
+            <td><p>{{p.observaciones}}</p></td>
+            <td><p>{{p.fecha_adquisicion}}</p></td>
+            <td><p>{{p.valor_ingreso}}</p></td>
+            <td><p>{{p.tipo.descripcion}}</p></td>
+            <td><p>{{p.ambiente.codigo}}</p></td>
+            <td> <a href="{% url 'actualizar_mobiliario' p.id%}">actualizar</a></td>
+            <td> <a href="{% url 'eliminar_mobiliario' p.id%}" onclick="return (confirm('Desea eliminar el elemento?'))"> eliminar</a> </td>
+            
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{%endblock%}
+
+
+

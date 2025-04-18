@@ -1,0 +1,37 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{%block title%}
+rol
+{%endblock%}
+
+
+{%block header%}
+<link rel="stylesheet" href="{% static 'css/base.css'%}">
+<h1>Gestion Novedades</h1>
+        <ul>
+            <a href="{% url 'base'%}">INICIO</a>
+            <a href="{% url 'insertar_rol'%}">ROL</a>
+            <a href="{% url 'listar_rol' %}">listar</a>
+        </ul>
+{%endblock%}
+
+
+{%block content%}
+<div class="formulario_actualizar">
+<h1>Actualizar </h1>
+
+<form action="" method="POST" id="formulario_actualizar">
+    {% csrf_token %}
+                <label for="">codigo</label>
+                <input type="text" name="codigo" id="" value="{{rol.codigo}}">
+                <label for="nombre">nombre</label>
+                <input type="text" name="nombre" id="" value="{{rol.nombre}}">
+            
+                <label for="descripcion">descripcion</label>
+                <input type="text" name="descripcion" id="" value="{{rol.descripcion}}">
+            <br>
+                <td colspan="1"><button type="submit">Actualizar </button>
+</form>
+</div>
+{%endblock%}

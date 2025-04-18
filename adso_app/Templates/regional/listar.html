@@ -1,0 +1,47 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{%block title%}
+programa
+{%endblock%}
+
+
+{%block header%}
+<link rel="stylesheet" href="{% static 'css/base.css'%}">
+<h1>Gestion Novedades</h1>
+        <ul>
+            <a href="{% url 'base'%}">INICIO</a>
+            <a href="{% url 'insertar_regional'%}">INSERTAR</a>
+            <a href="{% url 'listar_regional' %}">LISTAR</a>
+        </ul>
+{%endblock%}
+
+
+{%block content%}
+<h1>listar regionales</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>codigo</th>
+                <th>nombre</th>
+                <th>actualizar</th>
+                <th>eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in regional %}
+            <tr>
+                <td>{{p.codigo}}</td>
+                <td>{{p.nombre}}</td>
+                <td> <a href="{% url 'actualizar_regional' p.id %}">Actualizar</a></td>
+                <td><a href="{% url 'eliminar_regional' p.id %}">Eliminar</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</div>
+{%endblock%}
+
+

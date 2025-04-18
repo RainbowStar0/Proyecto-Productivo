@@ -1,0 +1,62 @@
+{%extends 'base.html'%}
+{%load static%}
+Insertar rol
+{%block title%}
+{%endblock%}
+
+
+{%block header%}
+<link rel="stylesheet" href="{% static 'css/base.css'%}">
+<h1>Gestion Novedades</h1>
+        <ul>
+            <a href="{% url 'base'%}">INICIO</a>
+            <a href="{% url 'insertar_ambiente'%}">INSERTAR</a>
+            <a href="{% url 'listar_ambiente' %}">LISTAR</a>
+        </ul>
+{%endblock%}
+
+
+{%block content%}
+<h1>Registro ambiente</h1>
+
+<form action="" method="POST" id="formulario_actualizar">
+    {%csrf_token %}
+    <div class="formulario_actualizar">
+
+<label>codigo</label>
+<br>
+<input type="number" name="codigo">
+<br>
+<label>estado</label>
+<br>
+<input type="text" name="estado">
+<br>
+<label>ubicacion</label>
+<br>
+<input type="text" name="ubicacion">
+<br>
+
+<label> tipo_ambiente </label>
+<br>
+<select name="tipo_ambiente_id">
+    {% for p in tipo_ambiente %}
+    <option value="{{p.id}}">{{p.nombre}}</option>
+    {% endfor %}   
+    </select>
+    <br>
+
+
+    <label> sede </label>
+    <br>
+    <select name="sede_id">
+        {% for p in sede %}
+        <option value="{{p.id}}">{{p.nombre}}</option>
+        {% endfor %}   
+        </select>
+    <br>
+    <button type="submit" > Guardar  </button>    
+</form>
+</div>
+{%endblock%}
+
+
