@@ -19,9 +19,9 @@ Insertar rol
 {%block content%}
 <h1>Registro usuario</h1>
 
-<form action="" method="POST" id="formulario_actualizar">
+<form action="" method="POST" id="insertar_usuario">
         {%csrf_token %}
-        <div class="formulario_actualizar">
+        <div class="insertar_usuario">
     <label>Tipo documento</label>
     <br>
     <select name="tipo_doc" id="tipo_doc">
@@ -59,17 +59,6 @@ Insertar rol
     <br>
     <input type="password" name="password">
     <br>
-        
-    
-    
-    
-    <label> Rol </label>
-    <br>
-    <select name="rol_id">
-        {% for p in rol %}
-        <option value="{{p.id}}">{{p.nombre}}</option>
-        {% endfor %}   
-        </select>
         <br>
         <button type="submit" > Guardar  </button>    
 </form>

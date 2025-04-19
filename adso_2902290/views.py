@@ -1,163 +1,121 @@
-from django.shortcuts import render
-
-# Create your views here.
-
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db import connection
-from adso_app.models import *   
+from adso_app.models import *
 from django.contrib.auth import login, logout, authenticate
 
 
 def base(request):
-    return render(request,'base.html')
+    return render(request, 'base.html')
+
 
 def login_usuario(request):
     if request.method == 'POST':
-        # Si los input no están vacíos:
-        if ((request.POST.get('username') != None) and (request.POST.get('password')) != None):
-            username_recibido = request.POST.get('username')
-            password_recibido = request.POST.get('password')
-            autenticar = authenticate(
-                username=username_recibido,
-                password=password_recibido
-            )
-            if autenticar is not None:  # Si variable usuario_autenticado no es vacía
-                login(request, autenticar)  # Guarda datos de la sesión en el navegador
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        if username and password:
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
                 return redirect('base')
             else:
-                mensaje_error = 'Credenciales incorrectas, intente de nuevo'
-                return render(request, 'usuario/login.html', {'mensaje_error': mensaje_error})
-    else:
-        return render(request, 'usuario/login.html')
+                return render(request, 'usuario/login.html', {'mensaje_error': 'Credenciales incorrectas'})
+    return render(request, 'usuario/login.html')
+
 
 def logout_usuario(request):
     logout(request)
     return redirect('base')
 
 
-
-
-
-
-
-
-
-
-
+# ROL
 
 def insertar_rol(request):
     if request.method == 'POST':
-        if (request.POST.get('nombre')
-            and request.POST.get('descripcion')
-            and request.POST.get('codigo')):
+        if request.POST.get('nombre') and request.POST.get('descripcion') and request.POST.get('codigo'):
+            Rol.objects.create(
+                codigo=request.POST['codigo'],
+                nombre=request.POST['nombre'],
+                descripcion=request.POST['descripcion']
+            )
+            return redirect('listar_rol')
+    return render(request, 'rol/insertar.html')
 
-                rol = Rol()
 
-                rol.codigo = request.POST.get('codigo')
-                rol.nombre = request.POST.get('nombre')
-                rol.descripcion = request.POST.get('descripcion')
-                rol.save()
-                return redirect('listar_rol')
-    else:
-        return render(request, 'rol/insertar.html')
-    
-def listar_rol (request):
-    rol = Rol.objects.all()
-    total_roles = Rol.objects.count()
-    return render(request, 'rol/listar.html', {'rol':rol,"total_roles": total_roles})
+def listar_rol(request):
+    roles = Rol.objects.all()
+    total = roles.count()
+    return render(request, 'rol/listar.html', {'rol': roles, 'total_roles': total})
 
-def actualizar_rol(request,id):
-    rol=get_object_or_404(Rol,id=id)
-    if request.method=='POST':
-        campos_obligatorios=['codigo','nombre','descripcion']
 
-        if all(request.POST.get(field) for field in campos_obligatorios):
-            rol.id=id
-            rol.nombre=request.POST.get('codigo')
-            rol.nombre=request.POST.get('nombre')
-            rol.descripcion=request.POST.get('descripcion')
+def actualizar_rol(request, id):
+    rol = get_object_or_404(Rol, id=id)
+    if request.method == 'POST':
+        if all(request.POST.get(field) for field in ['codigo', 'nombre', 'descripcion']):
+            rol.codigo = request.POST['codigo']
+            rol.nombre = request.POST['nombre']
+            rol.descripcion = request.POST['descripcion']
             rol.save()
             return redirect('listar_rol')
-    else:
-        return render(request,'rol/actualizar.html', {'rol':rol})
-    
-def eliminar_rol(request,id):
-    rol=get_object_or_404(Rol,id=id)
-    rol.delete() 
-    return redirect ('listar_rol') 
+    return render(request, 'rol/actualizar.html', {'rol': rol})
 
 
+def eliminar_rol(request, id):
+    rol = get_object_or_404(Rol, id=id)
+    rol.delete()
+    return redirect('listar_rol')
 
 
-
-
+# USUARIO
 
 def insertar_usuario(request):
     if request.method == 'POST':
-    
-        if (request.POST.get('tipo_doc') 
-            and request.POST.get('numero_documento') 
-            and request.POST.get('first_name') 
-            and request.POST.get('last_name') 
-            and request.POST.get('username') 
-            and request.POST.get('email') 
-            and request.POST.get('password') 
-            and request.POST.get('telefono') 
-            and request.POST.get('rol_id')):
-            
-        
+        campos = ['tipo_doc', 'numero_documento', 'first_name', 'last_name', 'username', 'email', 'password', 'telefono', 'rol_id']
+        if all(request.POST.get(campo) for campo in campos):
             usuario = Usuario.objects.create_user(
-                username=request.POST.get('username'),
-                email=request.POST.get('email'),
-                password=request.POST.get('password'),
-                first_name=request.POST.get('first_name'),
-                last_name=request.POST.get('last_name'),
-                tipo_doc=request.POST.get('tipo_doc'),
-                numero_documento=request.POST.get('numero_documento'),
-                telefono=request.POST.get('telefono'),
-                rol=Rol.objects.get(id=request.POST.get('rol_id'))
+                username=request.POST['username'],
+                email=request.POST['email'],
+                password=request.POST['password'],
+                first_name=request.POST['first_name'],
+                last_name=request.POST['last_name'],
+                tipo_doc=request.POST['tipo_doc'],
+                numero_documento=request.POST['numero_documento'],
+                telefono=request.POST['telefono'],
+                rol_id=request.POST['rol_id']
             )
-            return redirect('listar_usuario')  
-            
-    else:
-        rol = Rol.objects.all()
-        return render(request, 'usuario/insertar.html', {'rol': rol})
-        
+            return redirect('listar_usuario')
+    roles = Rol.objects.all()
+    return render(request, 'usuario/insertar.html', {'rol': roles})
+
+
 def listar_usuario(request):
     usuarios = Usuario.objects.all().order_by('last_name')
-    total_usuarios = Usuario.objects.count()
-    return render(request,'usuario/listar.html',{'usuarios':usuarios, "total_usuarios": total_usuarios})
-
+    total = usuarios.count()
+    return render(request, 'usuario/listar.html', {'usuarios': usuarios, 'total_usuarios': total})
 
 
 def actualizar_usuario(request, id):
-    usuario= get_object_or_404(Usuario,id=id)
+    usuario = get_object_or_404(Usuario, id=id)
     if request.method == 'POST':
-        campos_obligatorios=['tipo_doc','numero_documento','last_name','first_name','username','email','password','rol_id']
-        if all(request.POST.get(field) for field in campos_obligatorios):
-
-            usuario.tipo_doc=request.POST.get('tipo_doc')
-            usuario.numero_documento=request.POST.get('numero_documento')
-            usuario.last_name=request.POST.get('last_name')
-            usuario.first_name=request.POST.get('first_name')
-            usuario.username=request.POST.get('username')
-            usuario.email=request.POST.get('email')
-            usuario.password=request.POST.get('password')
-            usuario.rol_id=request.POST.get('rol_id')
+        campos = ['tipo_doc', 'numero_documento', 'first_name', 'last_name', 'username', 'email', 'password', 'rol_id']
+        if all(request.POST.get(campo) for campo in campos):
+            usuario.tipo_doc = request.POST['tipo_doc']
+            usuario.numero_documento = request.POST['numero_documento']
+            usuario.first_name = request.POST['first_name']
+            usuario.last_name = request.POST['last_name']
+            usuario.username = request.POST['username']
+            usuario.email = request.POST['email']
+            usuario.set_password(request.POST['password'])
+            usuario.rol_id = request.POST['rol_id']
             usuario.save()
-        return redirect('listar_usuario')
-    else:
-        rol = Rol.objects.all()
-        return render(request,'usuario/actualizar.html',{'usuario':usuario, 'rol':rol})
-    
-    
-def eliminar_usuario(request, id):
-    usuario= get_object_or_404(Usuario,id=id)
-    usuario.delete()
-    return redirect('listar_usuario ')
+            return redirect('listar_usuario')
+    roles = Rol.objects.all()
+    return render(request, 'usuario/actualizar.html', {'usuario': usuario, 'rol': roles})
 
-from django.shortcuts import render
-from adso_app.models import Usuario
+
+def eliminar_usuario(request, id):
+    usuario = get_object_or_404(Usuario, id=id)
+    usuario.delete()
+    return redirect('listar_usuario')
 
 def conteo_usuarios(request):
     total_usuarios = Usuario.objects.count() 
@@ -225,7 +183,7 @@ def insertar_centro_formacion(request):
             and request.POST.get('regional_id')):
             
         
-            centro_formacion = Centro_formacion()
+            centro_formacion = CentroFormacion()
                 
             centro_formacion.codigo=request.POST.get('codigo')
             centro_formacion.nombre=request.POST.get('nombre')
@@ -242,14 +200,14 @@ def insertar_centro_formacion(request):
 
 
 def listar_centro_formacion(request):
-    centro_formacion = Centro_formacion.objects.all()
+    centro_formacion = CentroFormacion.objects.all()
     regional = Regional.objects.all()
     return render(request,'centro_formacion/listar.html',{'centro_formacion':centro_formacion,'regional':regional})
 
 
 
 def actualizar_centro_formacion(request,id):
-    centro_formacion=get_object_or_404(Centro_formacion,id=id)
+    centro_formacion=get_object_or_404(CentroFormacion,id=id)
     if request.method=='POST':
         campos_obligatorios=['codigo','nombre','direccion','telefono','regional_id']
 
@@ -268,7 +226,7 @@ def actualizar_centro_formacion(request,id):
     
     
 def eliminar_centro_formacion(request, id):
-    centro_formacion= get_object_or_404(Centro_formacion,id=id)
+    centro_formacion= get_object_or_404(CentroFormacion,id=id)
     centro_formacion.delete()
     return redirect('listar_centro_formacion')
 
@@ -299,13 +257,13 @@ def insertar_sede(request):
             return redirect('listar_sede')  
             
     else:
-        centro_de_formacion = Centro_formacion.objects.all()
+        centro_de_formacion = CentroFormacion.objects.all()
         return render(request, 'sede/insertar.html', {'centro_de_formacion': centro_de_formacion})
 
 
 def listar_sede(request):
     sede = Sede.objects.all()
-    centro_de_formacion = Centro_formacion.objects.all()
+    centro_de_formacion = CentroFormacion.objects.all()
     return render(request,'sede/listar.html',{'sede':sede,'centro_de_formacion':centro_de_formacion})
 
 
@@ -324,7 +282,7 @@ def actualizar_sede(request,id):
             sede.save()
             return redirect('listar_sede')
     else:
-        centro_de_formacion = Centro_formacion.objects.all()
+        centro_de_formacion = CentroFormacion.objects.all()
         return render(request,'sede/actualizar.html', {'sede':sede, 'centro_de_formacion':centro_de_formacion})
     
     
@@ -349,7 +307,7 @@ def insertar_tipo_ambiente(request):
         if (request.POST.get('codigo')
             and request.POST.get('nombre')):
 
-                tipo_ambiente = Tipo_ambiente()
+                tipo_ambiente = TipoAmbiente()
 
                 tipo_ambiente.codigo = request.POST.get('codigo')
                 tipo_ambiente.nombre = request.POST.get('nombre')
@@ -359,11 +317,11 @@ def insertar_tipo_ambiente(request):
         return render(request, 'tipo_ambiente/insertar.html')
     
 def listar_tipo_ambiente (request):
-    tipo_ambiente = Tipo_ambiente.objects.all()
+    tipo_ambiente = TipoAmbiente.objects.all()
     return render(request, 'tipo_ambiente/listar.html', {'tipo_ambiente':tipo_ambiente})
 
 def actualizar_tipo_ambiente(request,id):
-    tipo_ambiente=get_object_or_404(Tipo_ambiente,id=id)
+    tipo_ambiente=get_object_or_404(TipoAmbiente,id=id)
     if request.method=='POST':
         campos_obligatorios=['codigo','nombre']
 
@@ -377,7 +335,7 @@ def actualizar_tipo_ambiente(request,id):
         return render(request,'tipo_ambiente/actualizar.html', {'tipo_ambiente':tipo_ambiente})
     
 def eliminar_tipo_ambiente(request,id):
-    tipo_ambiente=get_object_or_404(Tipo_ambiente,id=id)
+    tipo_ambiente=get_object_or_404(TipoAmbiente,id=id)
     tipo_ambiente.delete() 
     return redirect ('listar_tipo_ambiente') 
 
@@ -412,14 +370,14 @@ def insertar_ambiente(request):
             return redirect('listar_ambiente')  
             
     else:
-        tipo_ambiente = Tipo_ambiente.objects.all()
+        tipo_ambiente = TipoAmbiente.objects.all()
         sede = Sede.objects.all()
         return render(request, 'ambiente/insertar.html', {'tipo_ambiente': tipo_ambiente,'sede': sede})
 
 
 def listar_ambiente(request):
     ambiente = Ambiente.objects.all()
-    tipo_ambiente = Tipo_ambiente.objects.all()
+    tipo_ambiente = TipoAmbiente.objects.all()
     sede = Sede.objects.all()
     return render(request,'ambiente/listar.html',{'ambiente':ambiente,'tipo_ambiente':tipo_ambiente,'sede': sede})
 
@@ -440,7 +398,7 @@ def actualizar_ambiente(request,id):
             ambiente.save()
             return redirect('listar_ambiente')
     else:
-        tipo_ambiente = Tipo_ambiente.objects.all()
+        tipo_ambiente = TipoAmbiente.objects.all()
         sede = Sede.objects.all()
         return render(request,'ambiente/actualizar.html', {'ambiente':ambiente, 'tipo_ambiente':tipo_ambiente,'sede': sede})
     
@@ -466,7 +424,7 @@ def insertar_tipo_mobiliario(request):
         if (request.POST.get('codigo')
             and request.POST.get('descripcion')):
 
-                tipo_mobiliario = Tipo_mobiliario()
+                tipo_mobiliario = TipoMobiliario()
 
                 tipo_mobiliario.codigo = request.POST.get('codigo')
                 tipo_mobiliario.descripcion = request.POST.get('descripcion')
@@ -476,11 +434,11 @@ def insertar_tipo_mobiliario(request):
         return render(request, 'tipo_mobiliario/insertar.html')
     
 def listar_tipo_mobiliario (request):
-    tipo_mobiliario = Tipo_mobiliario.objects.all()
+    tipo_mobiliario = TipoMobiliario.objects.all()
     return render(request, 'tipo_mobiliario/listar.html', {'tipo_mobiliario':tipo_mobiliario})
 
 def actualizar_tipo_mobiliario(request,id):
-    tipo_mobiliario=get_object_or_404(Tipo_mobiliario,id=id)
+    tipo_mobiliario=get_object_or_404(TipoMobiliario,id=id)
     if request.method=='POST':
         campos_obligatorios=['codigo','descripcion']
 
@@ -494,7 +452,7 @@ def actualizar_tipo_mobiliario(request,id):
         return render(request,'tipo_mobiliario/actualizar.html', {'tipo_mobiliario':tipo_mobiliario})
     
 def eliminar_tipo_mobiliario(request,id):
-    tipo_mobiliario=get_object_or_404(Tipo_mobiliario,id=id)
+    tipo_mobiliario=get_object_or_404(TipoMobiliario,id=id)
     tipo_mobiliario.delete() 
     return redirect ('listar_tipo_mobiliario') 
 
@@ -540,14 +498,14 @@ def insertar_mobiliario(request):
             return redirect('listar_mobiliario')  
             
     else:
-        tipo_mobiliario = Tipo_mobiliario.objects.all()
+        tipo_mobiliario = TipoMobiliario.objects.all()
         ambiente = Ambiente.objects.all()
         return render(request, 'mobiliario/insertar.html', {'tipo_mobiliario': tipo_mobiliario,'ambiente': ambiente})
 
 
 def listar_mobiliario(request):
     mobiliario = Mobiliario.objects.all()
-    tipo_mobiliario = Tipo_mobiliario.objects.all()
+    tipo_mobiliario = TipoMobiliario.objects.all()
     ambiente = Ambiente.objects.all()
     return render(request, 'mobiliario/listar.html', {'mobiliario':mobiliario,'tipo_mobiliario': tipo_mobiliario,'ambiente': ambiente}) 
 
@@ -572,7 +530,7 @@ def actualizar_mobiliario(request,id):
             mobiliario.save()
             return redirect('listar_mobiliario')
     else:
-        tipo_mobiliario = Tipo_mobiliario.objects.all()
+        tipo_mobiliario = TipoMobiliario.objects.all()
         ambiente = Ambiente.objects.all()
         return render(request,'mobiliario/actualizar.html', {'mobiliario':mobiliario, 'tipo_mobiliario':tipo_mobiliario,'ambiente': ambiente})
     
