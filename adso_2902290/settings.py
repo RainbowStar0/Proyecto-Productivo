@@ -27,19 +27,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+DEFAULT_ADMIN_USERNAME = 'admin'
+DEFAULT_ADMIN_EMAIL = 'admin@ejemplo.com'
+DEFAULT_ADMIN_PASSWORD = 'admin'
 # Application definition
 
 INSTALLED_APPS = [
     'adso_2902290',
-    'adso_app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework'
+    'rest_framework',
+    'adso_app.apps.AdsoAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 ]
 
 ROOT_URLCONF = 'adso_2902290.urls'
@@ -94,18 +98,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+
 ]
 
 
@@ -131,3 +124,8 @@ STATICFILES_DIRS = ['adso_app/Public']
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'adso_app.Usuario'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'listar_novedades'
+LOGOUT_REDIRECT_URL = 'login'

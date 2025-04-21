@@ -18,10 +18,22 @@ Including another URLconf
 from django.urls import path, include
 from rest_framework import routers
 from adso_app.views import RegionalViewSet
+from .views import (
+    login_view, register_view, CustomLogoutView,
+    insertar_novedad, listar_novedades, actualizar_novedad
+)
+
 
 router=routers.DefaultRouter()
 router.register(r'regionalesrest', RegionalViewSet)
 
 urlpatterns = [
     path('/regionales/', include(router.urls)),
+    
+    path('register/', register_view, name='register'),
+    path('logout/', CustomLogoutView.as_view(), name='logout'),
+    
+    path('novedades/insertar/', insertar_novedad, name='insertar_novedad'),
+    path('novedades/', listar_novedades, name='listar_novedades'),
+    path('novedades/<int:pk>/editar/', actualizar_novedad, name='actualizar_novedad'),
 ]

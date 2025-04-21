@@ -17,16 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from adso_2902290.views import *
+from adso_app.views import login_view
 
 
 urlpatterns = [
     #APi
     path('api_regional', include('adso_app.urls')),
     
+    path('', login_view, name='login'),
     path('admin/', admin.site.urls),
     path('adso_app', include('adso_app.urls')),
     path('base/', base, name='base'),
-    path('', login_usuario, name='login'),
     path('rol/insertar/', insertar_rol, name='insertar_rol'),
     path('rol/listar/', listar_rol,name='listar_rol'),
     path('rol/actualizar/<int:id>/',actualizar_rol,name='actualizar_rol'),

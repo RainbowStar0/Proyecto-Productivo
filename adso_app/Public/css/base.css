@@ -1,7 +1,7 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Control del tamaño de los elementos */
+    box-sizing: border-box;
 }
 
 html, body {
@@ -14,101 +14,80 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 100vh; /* Asegura que el contenido mínimo ocupe todo el viewport */
-    margin: 0; /* Elimina márgenes */
-    background: rgb(254, 254, 254);
-    background: linear-gradient(0deg, rgba(254, 254, 254, 1) 0%, rgba(76, 175, 80, 1) 90%);
-    background-attachment: fixed; /* Hace que el fondo permanezca fijo */
+    justify-content: flex-start;
+    min-height: 100vh;
+    background: linear-gradient(0deg, rgba(254,254,254,1) 0%, rgba(76,175,80,1) 90%);
+    background-attachment: fixed;
 }
 
 header {
     display: flex;
-    background-color: #4caf50; /* Color de fondo del header */
+    background-color: #4caf50;
     width: 100%;
-    height: 15%;
+    padding: 10px 20px;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 h1 {
     font-size: 2.5em;
-    color: #fff; /* Color del texto del header */
+    color: #fff;
 }
 
 main {
-    height: 90%;
+    flex: 1;
     width: 100%;
+    padding: 20px;
     text-align: center;
-    padding: 20px; /* Espaciado interno */
-}
-
-main h1 {
-    font-size: 2em;
-    padding-bottom: 3%;
-    color: #333; /* Color del texto principal */
-}
-
-main p {
-    font-size: 15px;
-    padding-bottom: 3%;
-    color: #666; /* Color del texto secundario */
 }
 
 .menu {
     position: relative;
     display: inline-block;
-    margin: 0;
+    margin: 0 10px;
 }
 
 .menu button {
-    padding: 10px;
-    background-color: #286637; /* Color de fondo del botón del menú */
+    padding: 10px 15px;
+    background-color: #286637;
     border-radius: 10px;
     color: #fff;
     font-size: 14px;
-    margin: 5%;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s; /* Transición suave */
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .menu button:hover {
-    background-color: #4caf50; /* Color de fondo al pasar el mouse */
-    transform: scale(1.05); /* Efecto de escala al pasar el mouse */
+    background-color: #4caf50;
+    transform: scale(1.05);
 }
 
 .menu-content {
     display: none;
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.8); /* Fondo más oscuro para el menú */
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-radius: 10px; /* Bordes redondeados */
-    margin-left: 20px;
-}
-
-.menu-content li {
+    top: 100%;
+    left: 0;
+    background-color: rgba(0,0,0,0.8);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     border-radius: 10px;
+    list-style: none;
+    margin-top: 5px;
+    min-width: 150px;
+    z-index: 100;
 }
 
-.menu-content p {
+.menu-content li, .menu-content p, .menu-content a {
     color: #fff;
-}
-
-.menu-content li a, .menu-content li {
-    color: #fff;
-    padding: 10px 15px;
+    padding: 10px;
     text-decoration: none;
     display: block;
     font-size: 13px;
-    transition: background-color 0.3s; /* Transición suave */
+    transition: background-color 0.3s;
 }
 
 .menu-content li:hover {
-    background-color: rgb(67, 182, 92); /* Color de fondo al pasar el mouse */
+    background-color: rgb(67,182,92);
 }
 
 .menu:hover .menu-content {
@@ -116,121 +95,69 @@ main p {
 }
 
 button {
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
+    background-color: rgba(0,0,0,0.7);
+    color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, transform 0.3s; /* Transición suave */
-    margin-top: 15px; /* Ajusta el valor según sea necesario */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, transform 0.3s;
+    margin: 15px 0;
 }
 
 button:hover {
-    background-color: #4caf50; /* Color de fondo al pasar el mouse */
-    color: black;
-    transform: scale(1.05); /* Efecto de escala al pasar el mouse */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra al pasar el mouse */
+    background-color: #4caf50;
+    color: #000;
+    transform: scale(1.05);
 }
 
 input, select {
     padding: 10px;
-    margin: 10px;
+    margin: 10px 0;
     border-radius: 5px;
     width: 200px;
-    border: 1px solid #ccc; /* Borde suave */
-    transition: border-color 0.3s; /* Transición suave */
+    border: 1px solid #ccc;
+    transition: border-color 0.3s;
 }
 
 input:focus {
-    border-color: #4caf50; /* Color del borde al enfocar */
-    outline: none; /* Sin contorno */
-}
-
-ul {
-    display: flex;
-    list-style: none; 
-}
-
-ul a {
-    padding: 10px 10px; 
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
-    color: rgb(255, 255, 255);
-    text-decoration: none;
-    font-size: 14px;
-    margin-left: 20px;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.3s, transform 0.3s; /* Transición suave */
-}
-
-td a {
-    padding: 1%;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
-    color: rgb(255, 255, 255);
-    text-decoration: none; 
-    font-size: 14px;
-    transition: background-color 0.3s, transform 0.3s; /* Transición suave */
-}
-
-td a:hover {
-    background-color: rgb(0, 0, 0); /* Color de fondo al pasar el mouse */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra al pasar el mouse */
-    transform: scale(1.05); /* Efecto de escala al pasar el mouse */
-}
-
-th, td {
-    font-size: 100%;
-    text-align: center;
-    border: solid 1px #ccc; /* Borde suave */
-    padding: 10px; /* Espaciado interno */
-    width: 20%;
-    max-width: 20%;
-    transition: background-color 0.3s; /* Transición suave */
-}
-
-tr:hover {
-    background-color: rgba(0, 89, 255, 0.1); /* Color de fondo al pasar el mouse sobre la fila */
+    border-color: #4caf50;
+    outline: none;
 }
 
 table {
     width: 80%;
-    margin: 20px auto; /* Centrar la tabla */
-    border-collapse: collapse; /* Colapsar bordes */
+    margin: 20px auto;
+    border-collapse: collapse;
 }
 
-/* USUARIO */
-/* ACTUALIZAR USUARIO */
-.formulario_actualizar {
-    display: inline-block;
-    width: 100%;
-    height: auto; /* Cambiado a auto para adaptarse al contenido */
-    background-color: #fff; /* Fondo blanco para el formulario */
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para el formulario */
-    padding: 20px; /* Espaciado interno */
-    margin-bottom: 15%;
+th, td {
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 10px;
 }
 
-#formulario_actualizar { 
-    justify-self: center;
-    display: flex;
-    flex-direction: column;
-    width: 50%;
+tr:hover {
+    background-color: rgba(0,89,255,0.1);
 }
 
-#formulario_actualizar input, 
-#formulario_actualizar select {
-    width: 100%; /* Cambiado a 100% para que ocupe todo el ancho */
-    align-self: center;
-    margin-bottom: 15px; /* Espaciado entre campos */
-}
-
-#formulario_actualizar button {
-    width: 50%; /* Cambiado a 50% para que ocupe un ancho más adecuado */
-    align-self: center;
-    margin-top: 10px; /* Espaciado superior */
-}
+.messages {
+    list-style: none;
+    padding: 0;
+    width: 90%;
+    margin: 10px auto;
+  }
+  .messages li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  .messages li.success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  .messages li.error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  

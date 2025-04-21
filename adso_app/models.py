@@ -7,35 +7,47 @@ from django.contrib.auth.models import AbstractUser
 # ========================
 
 class Rol(models.Model):
-    codigo = models.CharField(max_length=100, null=False, unique=True)
-    nombre = models.CharField(max_length=100, null=False)
-    descripcion = models.CharField(max_length=255, null=False, default='instructor')
+    codigo = models.CharField(max_length=100, unique=True)
+    nombre = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return self.nombre
 
-
 class Usuario(AbstractUser):
-    TIPO_DOC = [
-        ('TI', 'Tarjeta de identidad'),
-        ('CC', 'Cédula de ciudadanía'),
-        ('CE', 'Cédula de extranjería'),
-        ('PPT', 'Permiso de protección temporal'),
-    ]
-    tipo_doc = models.CharField(max_length=3, choices=TIPO_DOC, default='CC')
-    numero_documento = models.CharField(max_length=12, null=False)
-    telefono = models.CharField(max_length=30, blank=True, null=False, default='N/A')
-    
-    # Cambiar para asignar un valor por defecto
-    rol = models.ForeignKey(Rol, on_delete=models.PROTECT, default=None)
+    class TipoDoc(models.TextChoices):
+        TI = 'TI', 'Tarjeta de identidad'
+        CC = 'CC', 'Cédula de ciudadanía'
+        CE = 'CE', 'Cédula de extranjería'
+        PPT = 'PPT', 'Permiso de protección especial'
 
-    ficha = models.ForeignKey('Ficha', on_delete=models.SET_NULL, null=True, blank=True)
-    fichas_instructor = models.ManyToManyField('Ficha', related_name='instructores', blank=True)
-    sede = models.ForeignKey('Sede', on_delete=models.SET_NULL, null=True, blank=True)
+    tipo_doc = models.CharField(max_length=3, choices=TipoDoc.choices, default=TipoDoc.CC)
+    numero_documento = models.CharField(max_length=12)
+    telefono = models.CharField(max_length=30, blank=True)
+    rol = models.ForeignKey(Rol, on_delete=models.PROTECT)
+
+    regional = models.CharField(max_length=100, blank=True, null=True)
+    sede = models.CharField(max_length=100, blank=True, null=True)
+    centro_form = models.CharField(max_length=100, blank=True, null=True)
+    programa = models.CharField(max_length=100, blank=True, null=True)
+    ficha = models.CharField(max_length=100, blank=True, null=True)
+
+class Novedad(models.Model):
+    TIPO = [
+        ('ACAD', 'Académica'),
+        ('DISC', 'Disciplinaria'),
+        ('AMBI', 'Ambiente'),
+    ]
+    tipo = models.CharField(max_length=4, choices=TIPO)
+    aprendiz = models.ForeignKey(Usuario, related_name='novedades', on_delete=models.CASCADE)
+    sede = models.CharField(max_length=100)
+    ambiente = models.CharField(max_length=100, blank=True)
+    descripcion = models.TextField()
+    creado_por = models.ForeignKey(Usuario, related_name='creadas', on_delete=models.SET_NULL, null=True)
+    creado_en = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.username} ({self.rol})"
-
+        return f"{self.get_tipo_display()} - {self.aprendiz.username}"
 # ========================
 # ESTRUCTURA INSTITUCIONAL
 # ========================

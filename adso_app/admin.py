@@ -1,20 +1,24 @@
 from django.contrib import admin
-from .models import (
-    Usuario, Rol,
-    Regional, CentroFormacion, Sede,
-    TipoAmbiente, Ambiente,
-    TipoMobiliario, Mobiliario,
-    Programa, Ficha
-)
+from .models import Usuario, Rol, Novedad
+from django.contrib.auth.admin import UserAdmin
 
-admin.site.register(Usuario)
-admin.site.register(Rol)
-admin.site.register(Regional)
-admin.site.register(CentroFormacion)
-admin.site.register(Sede)
-admin.site.register(TipoAmbiente)
-admin.site.register(Ambiente)
-admin.site.register(TipoMobiliario)
-admin.site.register(Mobiliario)
-admin.site.register(Programa)
-admin.site.register(Ficha)
+@admin.register(Rol)
+class RolAdmin(admin.ModelAdmin):
+    list_display = ('codigo', 'nombre')
+
+@admin.register(Usuario)
+class CustomUserAdmin(UserAdmin):
+    fieldsets = UserAdmin.fieldsets + (
+        ('Datos Adicionales', {
+            'fields': (
+                'tipo_doc', 'numero_documento', 'telefono', 'rol',
+                'regional', 'sede', 'centro_form', 'programa', 'ficha'
+            )
+        }),
+    )
+    list_display = ('username', 'email', 'rol', 'sede')
+
+@admin.register(Novedad)
+class NovedadAdmin(admin.ModelAdmin):
+    list_display = ('tipo', 'aprendiz', 'sede', 'creado_por', 'creado_en')
+    list_filter = ('tipo', 'sede')
