@@ -1,5 +1,5 @@
 from django import forms
-from .models import Usuario, Ficha, Programa, Mobiliario, Novedad
+from .models import *
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 
@@ -32,13 +32,19 @@ class UsuarioRegistroForm(forms.ModelForm):
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(label='Usuario')
-    password = forms.CharField(widget=forms.PasswordInput, label='Contraseña')
+    class Meta:
+        model = Usuario
+        fields = ['username', 'password']
+        widgets = {
+            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+    }
 
 class NovedadForm(forms.ModelForm):
     class Meta:
         model = Novedad
         fields = ['tipo', 'aprendiz', 'sede', 'ambiente', 'descripcion']
+        widgets = {'descripcion': forms.Textarea(attrs={'class': 'form-control'})}
         
 
 class RegistrationForm(UserCreationForm):
@@ -46,3 +52,7 @@ class RegistrationForm(UserCreationForm):
         model = Usuario
         fields = ['username', 'email', 'password1', 'password2']
 
+class NovedadForm(forms.ModelForm):
+    class Meta:
+        model = Novedad
+        fields = ['tipo', 'aprendiz', 'sede', 'ambiente', 'descripcion', 'archivo']

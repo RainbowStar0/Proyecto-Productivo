@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+from django.db.models.signals import pre_save
+import os
 
 
 # ========================
@@ -45,9 +49,29 @@ class Novedad(models.Model):
     descripcion = models.TextField()
     creado_por = models.ForeignKey(Usuario, related_name='creadas', on_delete=models.SET_NULL, null=True)
     creado_en = models.DateTimeField(auto_now_add=True)
+    archivo = models.FileField(upload_to='evidencias/')
 
     def __str__(self):
         return f"{self.get_tipo_display()} - {self.aprendiz.username}"
+    
+@receiver(post_delete, sender=Novedad)
+def eliminar_archivo_disco(sender, instance, **kwargs):
+        if instance.archivo and os.path.isfile(instance.archivo.path):
+            os.remove(instance.archivo.path)
+
+@receiver(pre_save, sender=Novedad)
+def eliminar_archivo_anterior_al_actualizar(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+    try:
+        old_file = Novedad.objects.get(pk=instance.pk).archivo
+    except Novedad.DoesNotExist:
+        return
+
+    new_file = instance.archivo
+    if old_file and old_file != new_file:
+        if os.path.isfile(old_file.path):
+            os.remove(old_file.path)
 # ========================
 # ESTRUCTURA INSTITUCIONAL
 # ========================

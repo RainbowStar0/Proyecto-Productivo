@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,6 +32,9 @@ DEFAULT_ADMIN_USERNAME = 'admin'
 DEFAULT_ADMIN_EMAIL = 'admin@ejemplo.com'
 DEFAULT_ADMIN_PASSWORD = 'admin'
 # Application definition
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 INSTALLED_APPS = [
     'adso_2902290',
@@ -128,4 +132,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'adso_app.Usuario'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'listar_novedades'
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'login'  # Redirección después del logout
+LOGOUT_URL = 'logout'          # Por si quieres cambiar la ruta

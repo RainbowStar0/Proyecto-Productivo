@@ -1,17 +1,32 @@
 {% extends 'base.html' %}
+{% block title %}
+lista de novedades
+{% endblock %}
 {% block content %}
 <h2>Listado de Novedades</h2>
-<table>
-  <tr><th>Tipo</th><th>Aprendiz</th><th>Sede</th><th>Acciones</th></tr>
+{% load custom_filter %}
+<table class="table table-hover table-success">
+  <tr><th>Tipo</th><th>Aprendiz</th><th>Sede</th><th>Evidencia</th><th>Acciones</th></tr>
   {% for nov in novedades %}
   <tr>
+    {% with nov.archivo.url|file_type_icon as tipo %}
     <td>{{ nov.get_tipo_display }}</td>
     <td>{{ nov.aprendiz.username }}</td>
     <td>{{ nov.sede }}</td>
+    {% if tipo == 'imagen' %}
+    <td><img src="{{ nov.archivo.url }}" alt="{{ nov.archivo.name|cut:'evidencias/' }}"/></td>
+    {% elif tipo == 'pdf' %}
+    <td><a href="{{ nov.archivo.url }}" target="_blank"><span><i class="fas fa-file-pdf fa-4x text-danger"></i></span>{{ nov.archivo.name|cut:"evidencias/" }}</a></td>
+    {% elif tipo == 'word' %}
+    <td><a href="{{ nov.archivo.url }}" target="_blank"><span><i class="fas fa-file-word fa-4x text-primary"></i></span>{{ nov.archivo.name|cut:"evidencias/" }}</a></td>
+    {% else %}
+    <td><a href="{{ nov.archivo.url }}" target="_blank"><span><i class="fas fa-file fa-4x text-secondary"></i></span>{{ nov.archivo.name|cut:"evidencias/" }}</a></td>
+    {% endif %}
+    {% endwith %}
     <td><a href="{% url 'actualizar_novedad' nov.pk %}">Editar</a></td>
   </tr>
   {% empty %}
-  <tr><td colspan="4">No hay novedades.</td></tr>
+  <tr><td colspan="6">No hay novedades.</td></tr>
   {% endfor %}
 </table>
 {% endblock %}

@@ -65,6 +65,10 @@ def register_view(request):
 class CustomLogoutView(LogoutView):
     next_page = reverse_lazy('login')
 
+    def dispatch(self, request, *args, **kwargs):
+        messages.success(request, 'Sesión cerrada correctamente.')
+        return super().dispatch(request, *args, **kwargs)
+
 # Novedades Views
 @login_required
 @user_passes_test(lambda u: in_group(u, ['Instructor', 'Edificios', 'Coordinacion']))

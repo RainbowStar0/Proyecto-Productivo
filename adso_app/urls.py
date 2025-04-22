@@ -31,8 +31,7 @@ urlpatterns = [
     path('/regionales/', include(router.urls)),
     
     path('register/', register_view, name='register'),
-    path('logout/', CustomLogoutView.as_view(), name='logout'),
-    
+    path('logout/', CustomLogoutView.as_view(), name='logout'),  # <- ESTA ES LA IMPORTANTE  
     path('novedades/insertar/', insertar_novedad, name='insertar_novedad'),
     path('novedades/', listar_novedades, name='listar_novedades'),
     path('novedades/<int:pk>/editar/', actualizar_novedad, name='actualizar_novedad'),

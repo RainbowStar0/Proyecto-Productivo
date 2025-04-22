@@ -26,7 +26,7 @@ urlpatterns = [
     
     path('', login_view, name='login'),
     path('admin/', admin.site.urls),
-    path('adso_app', include('adso_app.urls')),
+    path('adso_app/', include('adso_app.urls')),
     path('base/', base, name='base'),
     path('rol/insertar/', insertar_rol, name='insertar_rol'),
     path('rol/listar/', listar_rol,name='listar_rol'),
