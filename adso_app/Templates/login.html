@@ -1,14 +1,25 @@
 {% extends 'base.html' %}
 {% block title %}
-Login
+Iniciar sesion
 {% endblock title %}
 {% block content %}
-<h1>Login</h1>
-<form method="post">{% csrf_token %}
-  <div class="form-group">
-    {{ form.as_p }}
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+      <div class="card card-body">
+        <h1>Iniciar Sesion</h1>
+        <form method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            {{ form.as_p }}
+          </div>
+          <button type="submit" class="btn btn-secondary">Ingresar</button>
+        </form>
+      </div>
+    </div>
+    <div class="alert alert-success mt-4 col-md-4 offset-md-4">
+      <p>¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
+    </div>
   </div>
-  <button type="submit">Ingresar</button>
-</form>
-<p>¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
+</div>
 {% endblock %}
