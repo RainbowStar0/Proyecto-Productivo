@@ -2,161 +2,164 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-html, body {
+  }
+  
+  html, body {
     font-family: 'Verdana', 'Geneva', 'Tahoma', sans-serif;
     height: 100%;
     width: 100%;
-}
-
-body {
+  }
+  
+  body {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
-    background: linear-gradient(0deg, rgba(254,254,254,1) 0%, rgba(76,175,80,1) 90%);
+    background: linear-gradient(0deg, #fefefe 0%, #4caf50 90%);
     background-attachment: fixed;
-}
-
-header {
+  }
+  
+  header {
     display: flex;
-    background-color: #4caf50;
     width: 100%;
     padding: 10px 20px;
+    background-color: #4caf50;
     align-items: center;
     justify-content: space-between;
-}
-
-h1 {
+  }
+  
+  h1 {
     font-size: 2.5em;
     color: #fff;
-}
-
-main {
+  }
+  
+  main {
     flex: 1;
     width: 100%;
     padding: 20px;
     text-align: center;
-}
-
-.menu {
-    position: relative;
-    display: inline-block;
-    margin: 0 10px;
-}
-
-.menu button {
+  }
+  
+  /* Reutilización de estilos */
+  button, .menu button {
     padding: 10px 15px;
-    background-color: #286637;
-    border-radius: 10px;
     color: #fff;
     font-size: 14px;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
-}
-
-.menu button:hover {
-    background-color: #4caf50;
-    transform: scale(1.05);
-}
-
-.menu-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: rgba(0,0,0,0.8);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    border-radius: 10px;
-    list-style: none;
-    margin-top: 5px;
-    min-width: 150px;
-    z-index: 100;
-}
-
-.menu-content li, .menu-content p, .menu-content a {
-    color: #fff;
-    padding: 10px;
-    text-decoration: none;
-    display: block;
-    font-size: 13px;
-    transition: background-color 0.3s;
-}
-
-.menu-content li:hover {
-    background-color: rgb(67,182,92);
-}
-
-.menu:hover .menu-content {
-    display: block;
-}
-
-button {
-    background-color: rgba(0,0,0,0.7);
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
     border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
+    background-color: rgba(0, 0, 0, 0.7);
     margin: 15px 0;
-}
-
-button:hover {
+  }
+  
+  .menu button {
+    background-color: #286637;
+    border-radius: 10px;
+    margin: 0;
+  }
+  
+  button:hover, .menu button:hover {
     background-color: #4caf50;
     color: #000;
     transform: scale(1.05);
-}
-
-input, select {
+  }
+  
+  /* Menu desplegable */
+  .menu {
+    position: relative;
+    display: inline-block;
+    margin: 0 10px;
+  }
+  
+  .menu-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    list-style: none;
+    margin-top: 0px;
+    min-width: 150px;
+    z-index: 100;
+  }
+  
+  
+  .menu-content li,
+  .menu-content p,
+  .menu-content a {
+    color: #fff;
+    font-size: 13px;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    transition: background-color 0.3s;
+  }
+  
+  .menu-content li:hover {
+    background-color: rgb(67, 182, 92);
+  }
+  
+  .menu:hover .menu-content {
+    display: grid;
+  }
+  
+  /* Inputs y Select */
+  input, select {
     padding: 10px;
     margin: 10px 0;
-    border-radius: 5px;
     width: 200px;
     border: 1px solid #ccc;
+    border-radius: 5px;
     transition: border-color 0.3s;
-}
-
-input:focus {
+  }
+  
+  input:focus {
     border-color: #4caf50;
     outline: none;
-}
-
-table {
+  }
+  
+  /* Tablas */
+  table {
     width: 80%;
     margin: 20px auto;
     border-collapse: collapse;
-}
-
-th, td {
+  }
+  
+  th, td {
+    padding: 10px;
     text-align: center;
     border: 1px solid #ccc;
-    padding: 10px;
-}
-
-tr:hover {
-    background-color: rgba(0,89,255,0.1);
-}
-
-.messages {
+  }
+  
+  tr:hover {
+    background-color: rgba(0, 89, 255, 0.1);
+  }
+  
+  /* Mensajes */
+  .messages {
     list-style: none;
     padding: 0;
     width: 90%;
     margin: 10px auto;
   }
+  
   .messages li {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
   }
+  
   .messages li.success {
     background-color: #d4edda;
     color: #155724;
   }
+  
   .messages li.error {
     background-color: #f8d7da;
     color: #721c24;
   }
+  

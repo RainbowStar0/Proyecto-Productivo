@@ -15,7 +15,7 @@
         {% block header %}
         <h1 style="color: #fff;">GESTION SENA</h1>
         <div class="contenedor">
-            {% if user.is_authenticated and user.rol.codigo != 'APR' %}
+            {% if user.is_authenticated and user.rol.codigo == 'ADM' or user.rol.codigo == 'COO' %}
             <div class="menu">
                 <button>USUARIOS</button>
                 <ul class="menu-content">
@@ -39,6 +39,13 @@
                     <li><a href="{% url 'insertar_tipo_mobiliario' %}">TIPO MOBILIARIO</a></li>
                     <li><a href="{% url 'insertar_mobiliario' %}">MOBILIARIO</a></li>
                 </ul>
+                <div class="menu">
+                    <button>FORMACIÓN</button>
+                    <ul class="menu-content">
+                        <li><a href="{% url 'insertar_programa' %}">PROGRAMAS</a></li>
+                        <li><a href="{% url 'insertar_ficha' %}">FICHAS</a></li>
+                    </ul>
+                </div>
             </div>
             {% endif %}
             <div class="menu">
@@ -52,11 +59,10 @@
                         {% endif %}
                     </nav>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'listar_novedades' %}">Mis Novedades</a></li>
-                    <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
-                    {% else %}
-                    <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
-                    <li><a href="{% url 'register' %}">Registrarse</a></li>
+                    <form method="POST" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">Cerrar sesión</button>
+                    </form>
                     {% endif %}
                 </ul>
             </div>
@@ -65,15 +71,32 @@
     </header>
     <main>
         {% block content %}
-        {% if messages %}
-        <ul class="messages">
-          {% for message in messages %}
-            <li class="{{ message.tags }}">{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
+        <div class="card text-center">
+            <div class="card-header">
+              Featured
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Novedades Registradas</h5>
+              <p class="card-text">Revisa tus novedades activas</p>
+              <a href="{% url 'listar_novedades' %}" class="btn btn-primary">Mis Novedades</a>
+            </div>
+        </div>
+        {% if user.is_authenticated %}
+    {% if user.rol.codigo == "ADM" or user.rol.codigo == "COO" or user.rol.codigo == "INS" %}
+        <div class="card text-center">
+            <div class="card-header">
+              Featured
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Registra una nueva Novedad</h5>
+              <p class="card-text">Registra una novedad Académica, Disciplinaria o de Ambiente</p>
+              <a href="{% url 'insertar_novedad' %}" class="btn btn-primary">Nueva Novedad</a>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
         {% endblock %}
-        
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>

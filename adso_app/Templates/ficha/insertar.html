@@ -10,7 +10,7 @@
         </ul>
 {%endblock%}
 {% block content %}
-<h2>{% if 'actualizar' in request.path %}Actualizar{% else %}Insertar{% endif %} Programa</h2>
+<h2>{% if 'actualizar' in request.path %}Actualizar{% else %}Insertar{% endif %} Ficha</h2>
 <form method="POST">{% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-success">Guardar</button>

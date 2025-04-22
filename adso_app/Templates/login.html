@@ -9,6 +9,13 @@ Login
     {{ form.as_p }}
   </div>
   <button type="submit">Ingresar</button>
+  {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
 </form>
 <p>¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
 {% endblock %}

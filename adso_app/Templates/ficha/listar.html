@@ -10,9 +10,13 @@
         </ul>
 {%endblock%}
 {% block content %}
-<h2>{% if 'actualizar' in request.path %}Actualizar{% else %}Insertar{% endif %} Programa</h2>
-<form method="POST">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Guardar</button>
-</form>
+<h2>Listado de Fichas</h2>
+<a href="{% url 'insertar_ficha' %}" class="btn btn-primary">Nueva Ficha</a>
+<ul>
+    {% for ficha in fichas %}
+        <li>{{ ficha.codigo }} - {{ ficha.sede.nombre }} - {{ ficha.get_jornada_display }}
+            <a href="{% url 'actualizar_ficha' ficha.pk %}">Editar</a>
+        </li>
+    {% endfor %}
+</ul>
 {% endblock %}

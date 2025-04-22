@@ -17,11 +17,9 @@ Including another URLconf
 
 from django.urls import path, include
 from rest_framework import routers
-from adso_app.views import RegionalViewSet
-from .views import (
-    login_view, register_view, CustomLogoutView,
-    insertar_novedad, listar_novedades, actualizar_novedad
-)
+from adso_app.views import *
+from .views import *
+
 
 
 router=routers.DefaultRouter()
@@ -35,4 +33,14 @@ urlpatterns = [
     path('novedades/insertar/', insertar_novedad, name='insertar_novedad'),
     path('novedades/', listar_novedades, name='listar_novedades'),
     path('novedades/<int:pk>/editar/', actualizar_novedad, name='actualizar_novedad'),
+    
+    # Ficha
+    path('ficha/insertar/', insertar_ficha, name='insertar_ficha'),
+    path('ficha/<int:pk>/actualizar/', actualizar_ficha, name='actualizar_ficha'),
+    path('ficha/listar/', listar_fichas, name='listar_fichas'),
+
+    # Programa
+    path('programa/insertar/', insertar_programa, name='insertar_programa'),
+    path('programa/<int:pk>/actualizar/', actualizar_programa, name='actualizar_programa'),
+    path('programa/listar/', listar_programas, name='listar_programas'),
 ]

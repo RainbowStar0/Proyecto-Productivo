@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db import connection
 from adso_app.models import *
 from django.contrib.auth import login, logout, authenticate
+from django.contrib import messages
 
 
 def base(request):
@@ -96,20 +97,38 @@ def listar_usuario(request):
 def actualizar_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
     if request.method == 'POST':
-        campos = ['tipo_doc', 'numero_documento', 'first_name', 'last_name', 'username', 'email', 'password', 'rol_id']
+        campos = ['tipo_doc', 'numero_documento', 'first_name', 'last_name', 'username', 'email', 'password', 'confirm_password', 'rol_id']
+        
+        # Verificamos que todos los campos sean enviados
         if all(request.POST.get(campo) for campo in campos):
+            password = request.POST['password']
+            confirm_password = request.POST['confirm_password']
+            
+            # Verificar que las contraseñas coincidan
+            if password != confirm_password:
+                messages.error(request, 'Las contraseñas no coinciden.')
+                return redirect(request.path)  # Regresar si no coinciden
+
             usuario.tipo_doc = request.POST['tipo_doc']
             usuario.numero_documento = request.POST['numero_documento']
             usuario.first_name = request.POST['first_name']
             usuario.last_name = request.POST['last_name']
             usuario.username = request.POST['username']
             usuario.email = request.POST['email']
-            usuario.set_password(request.POST['password'])
+            
+            # Solo setear la nueva contraseña si se ha enviado una
+            if password:
+                usuario.set_password(password)
+            
             usuario.rol_id = request.POST['rol_id']
             usuario.save()
+            messages.success(request, 'Usuario actualizado correctamente.')
             return redirect('listar_usuario')
+    
+    # Obtener los roles para mostrar en el formulario
     roles = Rol.objects.all()
     return render(request, 'usuario/actualizar.html', {'usuario': usuario, 'rol': roles})
+
 
 
 def eliminar_usuario(request, id):

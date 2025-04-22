@@ -3,6 +3,11 @@
 <h2>Insertar Novedad</h2>
 <form method="post">{% csrf_token %}
   {{ form.as_p }}
+  {% if novedad.archivo %}
+  <a href="{{ novedad.archivo.url }}" target="_blank">Ver archivo</a>
+{% else %}
+  <p>No hay archivo adjunto</p>
+{% endif %}
   <button type="submit">Guardar</button>
 </form>
 {% endblock %}

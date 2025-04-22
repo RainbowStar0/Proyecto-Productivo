@@ -29,20 +29,20 @@ def in_group(user, groups):
 # Login & Logout Views
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('listar_novedades')
+        return redirect('base')
     form = LoginForm(request, data=request.POST or None)
     if form.is_valid():
         user = form.get_user()
         login(request, user)
         messages.success(request, 'Has iniciado sesión correctamente.')
-        return redirect('listar_novedades')
+        return redirect('base')
     if request.method == 'POST':
         messages.error(request, 'Usuario o contraseña incorrectos.')
     return render(request, 'login.html', {'form': form})
 
 def register_view(request):
     if request.user.is_authenticated:
-        return redirect('listar_novedades')
+        return redirect('base')
 
     form = RegistrationForm(request.POST or None)
     if form.is_valid():
@@ -101,3 +101,47 @@ def actualizar_novedad(request, pk):
         form.save()
         return redirect('listar_novedades')
     return render(request, 'novedades/actualizar.html', {'form': form})
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Ficha, Programa
+from .forms import FichaForm, ProgramaForm
+
+# === FICHA ===
+def insertar_ficha(request):
+    form = FichaForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('listar_fichas')
+    return render(request, 'ficha/insertar.html', {'form': form})
+
+def actualizar_ficha(request, pk):
+    ficha = get_object_or_404(Ficha, pk=pk)
+    form = FichaForm(request.POST or None, instance=ficha)
+    if form.is_valid():
+        form.save()
+        return redirect('listar_fichas')
+    return render(request, 'ficha/actualizar.html', {'form': form})
+
+def listar_fichas(request):
+    fichas = Ficha.objects.all()
+    return render(request, 'ficha/listar.html', {'fichas': fichas})
+
+# === PROGRAMA ===
+def insertar_programa(request):
+    form = ProgramaForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('listar_programas')
+    return render(request, 'programa_formacion/insertar.html', {'form': form})
+
+def actualizar_programa(request, pk):
+    programa = get_object_or_404(Programa, pk=pk)
+    form = ProgramaForm(request.POST or None, instance=programa)
+    if form.is_valid():
+        form.save()
+        return redirect('listar_programas')
+    return render(request, 'programa_formacion/actualizar.html', {'form': form})
+
+def listar_programas(request):
+    programas = Programa.objects.all()
+    return render(request, 'programa_formacion/listar.html', {'programas': programas})

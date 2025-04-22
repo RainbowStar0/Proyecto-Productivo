@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from adso_2902290.views import *
-from adso_app.views import login_view
+from adso_app.views import *
 
 
 urlpatterns = [
@@ -93,6 +93,8 @@ urlpatterns = [
     path('mobiliario/actualizar/<int:id>/',actualizar_mobiliario,name='actualizar_mobiliario'),
     path('mobiliario/eliminar/<int:id>/',eliminar_mobiliario,name='eliminar_mobiliario'),
 
-    
+    path('novedades/insertar/', insertar_novedad, name='insertar_novedad'),
+    path('novedades/listar', listar_novedades, name='listar_novedades'),
+    path('novedades/actualizar/<int:id>/', actualizar_novedad, name='actualizar_novedad'),
 
 ]

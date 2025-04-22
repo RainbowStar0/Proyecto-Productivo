@@ -52,7 +52,12 @@ class RegistrationForm(UserCreationForm):
         model = Usuario
         fields = ['username', 'email', 'password1', 'password2']
 
-class NovedadForm(forms.ModelForm):
+class FichaForm(forms.ModelForm):
     class Meta:
-        model = Novedad
-        fields = ['tipo', 'aprendiz', 'sede', 'ambiente', 'descripcion', 'archivo']
+        model = Ficha
+        fields = ['codigo', 'sede', 'jornada']
+
+class ProgramaForm(forms.ModelForm):
+    class Meta:
+        model = Programa
+        fields = ['nombre', 'ficha']
