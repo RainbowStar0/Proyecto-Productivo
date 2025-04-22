@@ -93,6 +93,9 @@ urlpatterns = [
     path('mobiliario/actualizar/<int:id>/',actualizar_mobiliario,name='actualizar_mobiliario'),
     path('mobiliario/eliminar/<int:id>/',eliminar_mobiliario,name='eliminar_mobiliario'),
 
-    
+    path('programas/listar', listar_programa_formacion, name='listar_programas'),
+    path('programas/crear', crear_programa_formacion, name='crear_programa'),
+    path('programas/actualizar/<int:id>/', actualizar_programa_formacion, name='actualizar_programa'),
+    path('programas/eliminar/<int:id>/', eliminar_programa_formacion, name='eliminar_programa'),
 
 ]

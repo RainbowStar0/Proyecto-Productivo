@@ -539,3 +539,49 @@ def eliminar_mobiliario(request, id):
     mobiliario= get_object_or_404(Mobiliario,id=id)
     mobiliario.delete()
     return redirect('listar_mobiliario')
+
+def listar_programa_formacion(request):
+    programas_formacion = Programa_Formacion.objects.all()
+    return render(request, 'programa_formacion/listar.html', {'programas_formacion': programas_formacion})
+
+def crear_programa_formacion(request):
+    if request.method == 'POST':
+    
+        if (request.POST.get('cod_prog') 
+            and request.POST.get('nombre') 
+            and request.POST.get('horas')
+            and request.POST.get('version')):
+            
+        
+            programa = Programa_Formacion()
+                
+            programa.placa=request.POST.get('placa')
+            programa.modelo=request.POST.get('modelo')
+            programa.descripcion=request.POST.get('descripcion')
+            programa.atributos=request.POST.get('atributos')
+            
+            programa.save()
+
+            return redirect('listar_programas')  
+            
+    else:
+        return render(request, 'programa_formacion/insertar.html')
+
+def actualizar_programa_formacion(request, id):
+    programa_formacion = get_object_or_404(Programa_Formacion, id=id)
+    if request.method == 'POST':
+        campos_obligatorios = ['cod_prog', 'nombre', 'horas', 'version']
+        if all(request.POST.get(field) for field in campos_obligatorios):
+            programa_formacion.cod_prog = request.POST.get('cod_prog')
+            programa_formacion.nombre = request.POST.get('nombre')
+            programa_formacion.horas = request.POST.get('horas')
+            programa_formacion.version = request.POST.get('version')
+            programa_formacion.save()
+        return redirect('listar_programas')
+    else:
+        return render(request, 'programa_formacion/actualizar.html', {'programa_formacion': programa_formacion})
+
+def eliminar_programa_formacion(request, id):
+    programa_formacion = get_object_or_404(Programa_Formacion, id=id)
+    programa_formacion.delete()
+    return redirect('listar_programas')

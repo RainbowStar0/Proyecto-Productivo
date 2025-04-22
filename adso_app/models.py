@@ -155,16 +155,19 @@ class Mobiliario(models.Model):
 # PROGRAMAS Y FICHAS
 # ========================
 
-class Programa(models.Model):
-    nombre = models.CharField(max_length=100, unique=True)
-
+class Programa_Formacion(models.Model):
+    cod_prog = models.CharField(max_length=255, unique=True, null=False)
+    nombre = models.CharField(max_length=255, unique=True, null=False)
+    horas = models.IntegerField(null=False)
+    version = models.CharField(max_length=255, null=False)
+    
     def __str__(self):
-        return self.nombre
+        return f"{self.cod_prog} - {self.nombre}"
 
 
 class Ficha(models.Model):
     codigo = models.CharField(max_length=50, unique=True)
-    programa = models.ForeignKey(Programa, on_delete=models.CASCADE)
+    programa = models.ForeignKey(Programa_Formacion, on_delete=models.CASCADE)
     sede = models.ForeignKey(Sede, on_delete=models.CASCADE)
     jornada = models.CharField(max_length=10, choices=[('diurno', 'Diurno'), ('nocturno', 'Nocturno')])
 

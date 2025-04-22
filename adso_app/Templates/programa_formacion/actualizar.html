@@ -18,43 +18,17 @@ actualizar programa de formacion
 
 
 {%block content%}
-<div class="formulario_actualizar">
-<h1>Actualizar programa de formacion</h1>
-
 <form action="" method="POST" id="formulario_actualizar">
     {%csrf_token %}
-<label>Tipo documento</label>
-<select name="tipo_doc" id="tipo_doc" value="{{usuario.tipo_doc}}" required>
-    <option value="CC">Cedula de ciudadania</option>
-    <option value="TI">Tarjeta de identidad</option>
-    <option value="CE">Cedula de extranjeria</option>
-    <option value="PPT">Permiso de proteccion especial</option>
-</select>
-<br>
-<label>Numero documento</label>
-<input type="number" name="numero_documento" value="{{usuario.numero_documento}}" required><br>
-<label>nombre</label>
-<input type="text" name="last_name" value="{{usuario.last_name}}" required><br>
-<label>apellido</label>
-<input type="text" name="first_name" value="{{usuario.first_name}}" required><br>
-<label>nombre de Usuario</label>
-<input type="text" name="username" value="{{usuario.username}}" required><br>
-<label>Telefono</label>
-<input type="text" name="telefono" value="{{usuario.telefono}}" required><br>
-<label>gmail</label>
-<input type="email" name="email" value="{{usuario.email}}" required><br>
-<label>contraseña</label>
-<input type="password" name="password" value="{{usuario.password}}" required><br>
-
-
-
-<label> Rol </label>
-<select name="rol_id">
-    {% for p in rol %}
-    <option value="{{p.id}}">{{p.nombre}}</option>
-    {% endfor %}   
-    </select>
-    <br>
+<div class="formulario_actualizar">
+    <label for="cod_prog">Codigo del programa</label>
+    <input type="text" id="cod_prog" name="cod_prog" required value="{{ programa_formacion.cod_prog }}">
+    <label for="nombre">Nombre del programa</label>
+    <input type="text" id="nombre" name="nombre" required value="{{ programa_formacion.nombre }}">
+    <label for="horas">Horas</label>
+    <input type="number" id="horas" name="horas" required value="{{ programa_formacion.horas }}">
+    <label for="version">Version</label>
+    <input type="text" id="version" name="version" required value="{{ programa_formacion.version }}">
     <button type="submit" > Guardar  </button>    
 </form>
 </div>

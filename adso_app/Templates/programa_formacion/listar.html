@@ -21,33 +21,23 @@ lista de programas de formacion
 <h1>Lista de programas de formacion</h1>
 <table>
     <thead>
-        <tr>
-        <th>tipo_doc</th>
-        <th>numero_doc</th>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Usuario</th>
-        <th>Telefono</th>
-        <th>Email</th>
+    <tr>
+        <th>Codigo del programa</th>
+        <th>Nombre del programa</th>
+        <th>Horas del programa</th>
+        <th>Version del programa</th>
         <th>Actualizar</th>
         <th>Eliminar</th>
     </tr>
     </thead>
     <tbody>
-        {% for p in usuarios %}
-        <tr>
-            <td><p>{{p.tipo_doc}}</p></td>
-            <td><p>{{p.numero_documento}}</p></td>
-            <td><p>{{p.last_name}}</p></td>
-            <td><p>{{p.first_name}}</p></td>
-            <td><p>{{p.username}}</p></td>
-            <td><p>{{p.telefono}}</p></td>
-            <td><p>{{p.email}}</p></td>
-            <td> <a href="{% url 'actualizar_usuario' p.id%}">actualizar</a></td>
-            <td> <a href="{% url 'eliminar_usuario' p.id%}" onclick="return (confirm('Desea eliminar el elemento?'))"> eliminar</a> </td>
-            
-            
-        </tr>
+        {% for p in programas_formacion %}
+            <tr>
+                <td>{{ p.cod_prog }}</td>
+                <td>{{ p.nombre }}</td>
+                <td>{{ p.horas }}</td>
+                <td>{{ p.version }}</td>
+            </tr>
         {% endfor %}
     </tbody>
 </table>
