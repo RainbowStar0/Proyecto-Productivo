@@ -44,15 +44,33 @@ class NovedadForm(forms.ModelForm):
     class Meta:
         model = Novedad
         fields = ['tipo', 'aprendiz', 'sede', 'ambiente', 'descripcion']
-        widgets = {'descripcion': forms.Textarea(attrs={'class': 'form-control'})}
+        widgets = { # se añadio
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'tipo': forms.Select(attrs={'class': 'form-control'}),
+            'ambiente': forms.Select(attrs={'class': 'form-control'}),
+            'aprendiz': forms.Select(attrs={'class': 'form-control'})
+            }
         
 
 class RegistrationForm(UserCreationForm):
     class Meta:
         model = Usuario
         fields = ['username', 'email', 'password1', 'password2']
+        widgets = { # se añadio
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control'})
+        }
 
 class NovedadForm(forms.ModelForm):
     class Meta:
         model = Novedad
         fields = ['tipo', 'aprendiz', 'sede', 'ambiente', 'descripcion', 'archivo']
+        widgets = { # se añadio
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'tipo': forms.Select(attrs={'class': 'form-control'}),
+            'ambiente': forms.Select(attrs={'class': 'form-control'}),
+            'aprendiz': forms.Select(attrs={'class': 'form-control'}),
+            'archivo': forms.ClearableFileInput(attrs={'class': 'form-control'})
+        }
